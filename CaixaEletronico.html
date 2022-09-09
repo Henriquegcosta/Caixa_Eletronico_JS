@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Caixa Eletrônico</title>
+
+	<script>
+
+		/*
+
+		
+		*/
+		
+		var saldo = 100.5; //Variavel Global
+		var name = prompt("Ola, qual é o seu nome? ");
+		var senha = 3589;
+		alert("Ola " + name + " é um prazer ter você por aqui!");
+
+		function inicio() {
+			//ESCOPO
+			//Variavel Local
+			var escolha = parseInt(prompt('Selecione uma opção 1.) Saldo 2.) Extrato 3.) Saque 4.) Deposito 5.) Transferência 6.) Sair'));
+				
+
+			switch(escolha){
+				case 1:
+					ver_saldo();
+					break;
+				case 2:
+					ver_extrato();
+					break;
+				case 3:
+					fazer_saque();
+					break;
+				case 4:
+					fazer_deposito();
+					break;
+				case 5:
+					fazer_transferencia();
+					break;
+				case 6:
+					sair();
+					break;
+				default:
+					erro();
+					break;
+			}
+		}
+
+		function ver_saldo() {
+			var ver_senha = parseInt(prompt("Insira a senha: "));
+
+			if(ver_senha == senha){
+				alert('Seu saldo atual é: ' + saldo);
+				inicio();
+			} else {
+				alert("Operação não autorizada");
+				ver_saldo();
+			}
+		}
+
+		function fazer_deposito() {
+			
+			var deposito =	parseFloat(prompt('Qual o valor para depósito?'));
+			
+			// Not a Number --> Isso é um não-número?
+			if (deposito <= 0){
+				alert("Operação não autorizada");
+				fazer_deposito();
+			} else {
+				if (isNaN(deposito) || deposito === '') {
+					alert('Por favor, informe um número.');
+					fazer_deposito();
+				} else {
+					saldo += deposito;
+					//saldo = saldo + deposito;
+					ver_saldo();
+				}	
+			}
+		}
+
+		function fazer_saque() {
+			//Sempre que o usuário for sacar dinheiro, o valor restante não pode ser negativo, ou seja, caso o usuário tente 
+			//sacar mais do que tem em saldo, a ação não deve ocorrer. Exiba uma mensagem de "Operação não autorizada". 
+			var ver_senha = parseInt(prompt("Insira a senha: "));
+
+			if(ver_senha == senha){
+				var saque = parseFloat(prompt('Qual o valor para saque?'));
+							
+				if (isNaN(saque) || saque === '') {
+					alert('Por favor, informe um número.');
+					fazer_saque();
+				} else {
+					if (saque > saldo || saque <= 0){
+						alert("Operação não autorizada");
+						inicio();
+					} else{
+						saldo -= saque;
+						//saldo = saldo - saque;
+						ver_saldo();
+					}
+				}
+			} else {
+				alert("Operação não autorizada");
+				fazer_saque();
+			}
+			
+
+		}
+
+		function ver_extrato(){
+			var ver_senha = parseInt(prompt("Insira a senha: "));
+
+			if(ver_senha == senha){
+				alert("--EXTRATO--\n-10$ Água mineral EXTRA (4 uni) Saldo atual = 100.5\n+20$ Deposito Banco Santander Saldo Atual = 110.5\n-40$ Bolo de cenoura com cobertura de chocolate Saldo Atual = 90.5 ");
+				inicio();
+			} else {
+				alert("Operação não autorizada");
+				ver_extrato();
+			}
+		}
+
+		function fazer_transferencia(){
+
+			var ver_senha = parseInt(prompt("Insira a senha: "));
+
+			if(ver_senha == senha){
+				var transferir = parseInt(prompt("Insira o numero da conta: "));
+			
+				if (isNaN(transferir) || transferir === ''){
+					alert("Conta inexistente, tente colocar apenas numeros!");
+					fazer_transferencia();
+				} else {
+					var valor_transferencia = parseFloat(prompt("Insira o valor para transferir: "));
+
+					if (valor_transferencia > saldo || valor_transferencia <= 0){
+						alert("Operação não autorizada");
+						fazer_transferencia();
+					} else {
+						saldo -= valor_transferencia;
+						alert("A transferencia para conta " + transferir + " foi bem sucedida")
+						alert('Seu saldo atual é: ' + saldo);
+						inicio();
+					}
+				}
+			} else {
+				alert("Operação não autorizada");
+				fazer_transferencia();
+			}	
+		}
+		function erro() {
+			alert('Por favor, informe um número entre 1 e 6.');
+			inicio();
+		}
+
+		function sair() {
+			var confirma = confirm('Você deseja sair?');
+			if (confirma) {
+				alert(name + ", foi um prazer ter você por aqui!");
+				window.close;
+			} else {
+				inicio();
+			}
+		}
+
+		inicio();
+	</script>
+</head>
+
+<body>
+
+</body>
+
+</html>
